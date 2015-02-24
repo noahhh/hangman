@@ -4,8 +4,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_game
 
   def current_game
-  	@current_game = game
-  	session[:serialized_current_game] = game.present? ? game.to_json : nil
+  	@current_game ||= load_current_game
+  end
+
+  def set_current_game(game)
+    @current_game = game
+    session[:serialized_current_game] = game.present? ? game.to_json : nil
   end
 
   def update_current_game
